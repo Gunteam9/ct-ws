@@ -1,7 +1,8 @@
 package v1.facade;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -13,17 +14,23 @@ public class NurseryFacadeImpl implements NurseryFacade {
 
 	private Nursery nursery;
 	
+	private Map<String, Admin> admins = new HashMap<String, Admin>();
+	
 	public NurseryFacadeImpl() {
-		List<Admin> admins = new ArrayList<Admin>();
-		admins.add(new Admin("admin1", "admin1"));
-		admins.add(new Admin("admin2", "admin2"));
+		admins.put("admin1", new Admin("admin1", "admin1"));
+		admins.put("admin2", new Admin("admin2", "admin2"));
 		
-		nursery = new Nursery(admins, "random adresse");
+		nursery = new Nursery(new ArrayList<Admin>(admins.values()), "random adresse");
 	}
 	
 	@Override
 	public Nursery getNursery() {
 		return nursery;
+	}
+	
+	@Override
+	public Admin getAdmin(String username) {
+		return admins.get(username);
 	}
 
 }

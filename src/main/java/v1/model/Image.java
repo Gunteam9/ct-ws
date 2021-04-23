@@ -10,7 +10,7 @@ public class Image {
 	private String desc;
 	
 	public Image() {
-		
+		this.id = UUID.randomUUID();
 	}
 	
 	public Image(URL url, String desc) {

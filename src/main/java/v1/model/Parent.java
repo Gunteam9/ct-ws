@@ -2,7 +2,7 @@ package v1.model;
 
 public class Parent {
 	
-	private String username;
+	private String login;
 	private String password;
 	private Child child;
 	
@@ -10,19 +10,19 @@ public class Parent {
 		super();
 	}
 	
-	public Parent(String username, String password, Child child) {
+	public Parent(String login, String password, Child child) {
 		super();
-		this.username = username;
+		this.login = login;
 		this.password = password;
 		this.child = child;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getLogin() {
+		return login;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	public String getPassword() {

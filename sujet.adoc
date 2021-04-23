@@ -67,13 +67,17 @@ On donne un parent dans le body.
 
 Exemple:
 ----
+POST http://localhost:8080/register
+Accept: application/xml
+Content-Type: application/xml
+
 <Parent>
-  <login>test</login>
-  <password>test</password>
-  <Child>
-    <firstName>enf</firstName>
-    <date>1970-01-01</date>
-  </Child>
+    <login>test</login>
+    <password>test</password>
+    <child>
+        <firstName>enf</firstName>
+        <date>1970-01-01</date>
+    </child>
 </Parent>
 ----
 
@@ -82,26 +86,28 @@ Réponse::
 --
 
 | /child/{id}
-| PATCH
+| PUT
 | On met à jour l'enfant. L'id correspond à l'id de l'enfant
 --
 Requête::
 Exemple: 
 ----
-<Child>
+PUT http://localhost:8080/child/1
+Content-Type: application/xml
+
+<child>
   <img>
-    <id>UUID</id>
-    <url>randomImage.com</url>
+    <url>http://randomImage.com</url>
     <desc>Description de l'enfant</desc>
   </img>
   <firstName>nouvPrenom</firstName>
-  <date>1971-01-01</date
-</Child>
+  <date>1971-01-01</date>
+</child>
 ----
 Réponse::
 * 204 NO CONTENT : L'update s'est fait sans problème
-* 404 NOT FOUND : L'enfant n'a pas été trouvé
 * 403 FORBIDDEN: Pas la permission
+* 404 NOT FOUND : L'enfant n'a pas été trouvé
 --
 
 | /parent/{login}/child
@@ -109,8 +115,11 @@ Réponse::
 | On récupère les informations de son enfant
 --
 Requête::
-Avec header Authorization
-name correspond au login du parent
+----
+GET http://localhost:8080/parent/test/child
+Accept: application/xml
+----
+
 Réponse::
 * 200 OK : Renvoi l'enfant
 --
@@ -119,6 +128,12 @@ Réponse::
 | GET
 | On récupère les informations de la crêche
 --
+
+Requête::
+----
+GET http://localhost:8080/info
+Accept: application/xml
+----
 
 Réponse::
 * 200 OK : Renvoi les informations

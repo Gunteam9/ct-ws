@@ -2,9 +2,39 @@ POST http://localhost:8080/register
 Accept: application/xml
 Content-Type: application/xml
 
-<user>
-    <username>test</username>
+<Parent>
+    <login>test</login>
     <password>test</password>
-</user>
+    <child>
+        <firstName>enf</firstName>
+        <date>1970-01-01</date>
+    </child>
+</Parent>
+
+###
+
+PUT http://localhost:8080/child/1
+Content-Type: application/xml
+Authorization: Basic admin1 admin1
+
+<child>
+  <img>
+    <url>http://randomImage.com</url>
+    <desc>Description de l'enfant</desc>
+  </img>
+  <firstName>nouvPrenom</firstName>
+  <date>1971-01-01</date>
+</child>
+
+###
+
+GET http://localhost:8080/parent/test/child
+Accept: application/xml
+Authorization: Basic test test
+
+###
+
+GET http://localhost:8080/info
+Accept: application/xml
 
 ###

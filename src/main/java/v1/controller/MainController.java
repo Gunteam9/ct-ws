@@ -12,9 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,8 +31,7 @@ import v1.model.Parent;
 @RestController
 // We also authorize XML because JSON is 🥴
 @RequestMapping(
-		produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
-		consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
+		produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
 		)
 @CrossOrigin("*")
 public class MainController {
@@ -52,10 +51,11 @@ public class MainController {
 	@PostMapping("/register")
 	public ResponseEntity<Parent> register(@RequestBody Parent givenUser, HttpServletRequest request) {
 		try {
-			Parent newUser = parentFacade.register(givenUser.getUsername(), givenUser.getPassword(), givenUser.getChild());
+			Child child = childFacade.createChild(null, givenUser.getChild().getFirstName(), givenUser.getChild().getDate());
+			Parent newUser = parentFacade.register(givenUser.getLogin(), givenUser.getPassword(), child);
 			
 			HttpHeaders responseHeader = new HttpHeaders();
-			responseHeader.setLocation(new URI("http://" + request.getRemoteHost() + "/parent/" + newUser.getUsername()));
+			responseHeader.setLocation(new URI("http://" + request.getRemoteHost() + "/parent/" + newUser.getLogin()));
 			
 			return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeader).body(newUser);
 		} catch (URISyntaxException e) {
@@ -64,9 +64,9 @@ public class MainController {
 		
 	}
 	
-	@PatchMapping("/child/id")
+	@PutMapping("/child/{id}")
 	public ResponseEntity<Child> updateChild(@PathVariable long id, @RequestBody Child child) {
-		childFacade.updateChild(child);
+		childFacade.updateChild(id, child);
 		
 		return ResponseEntity.noContent().build();
 	}
@@ -78,8 +78,10 @@ public class MainController {
 		return ResponseEntity.ok(child);
 	}
 	
+	
 	@GetMapping("/info")
 	public ResponseEntity<Nursery> getInfo() {
+		// Oui, c'est sur qu'on devrait faire un système pour éviter de renvoyer le mot de passe des admins mais bon, c'est original comme ça aussi non ?
 		return ResponseEntity.ok(nurseryFacade.getNursery());
 	}
 
