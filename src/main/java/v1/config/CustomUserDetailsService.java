@@ -37,11 +37,23 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if (user == null && admin == null)
 			throw new UsernameNotFoundException("User " + username + " not found");
 		String[] roles = admin != null ? ROLES_ADMIN : ROLES_USER;
-		UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
-				.username(username)
-				.password(passwordEncoder.encode(user.getPassword()))
-				.roles(roles)
-				.build();
+		
+		UserDetails userDetails = null;
+		
+		if (admin != null) {
+			userDetails = org.springframework.security.core.userdetails.User.builder()
+					.username(username)
+					.password(passwordEncoder.encode(admin.getPassword()))
+					.roles(roles)
+					.build();
+		}
+		else if (user != null) {
+			userDetails = org.springframework.security.core.userdetails.User.builder()
+					.username(username)
+					.password(passwordEncoder.encode(user.getPassword()))
+					.roles(roles)
+					.build();
+		}
 		
 		return userDetails;
 	}
