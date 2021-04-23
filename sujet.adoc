@@ -70,10 +70,10 @@ Exemple:
 <Parent>
   <login>test</login>
   <password>test</password>
-  <Enfant>
+  <Child>
     <firstName>enf</firstName>
     <date>1970-01-01</date>
-  </Enfant>
+  </Child>
 </Parent>
 ----
 
@@ -88,7 +88,7 @@ Réponse::
 Requête::
 Exemple: 
 ----
-<Enfant>
+<Child>
   <img>
     <id>UUID</id>
     <url>randomImage.com</url>
@@ -96,10 +96,10 @@ Exemple:
   </img>
   <firstName>nouvPrenom</firstName>
   <date>1971-01-01</date
-</Enfant
+</Child>
 ----
 Réponse::
-* 200 OK : Renvoi l'enfant modifié
+* 204 NO CONTENT : L'update s'est fait sans problème
 * 404 NOT FOUND : L'enfant n'a pas été trouvé
 * 403 FORBIDDEN: Pas la permission
 --
@@ -113,29 +113,6 @@ Avec header Authorization
 name correspond au login du parent
 Réponse::
 * 200 OK : Renvoi l'enfant
---
-
-| /child/{id}
-| GET
-| On met à jour l'enfant. L'id correspond à l'id de l'enfant
---
-Requête::
-Exemple: 
-----
-<Enfant>
-  <img>
-    <id>UUID</id>
-    <url>randomImage.com</url>
-    <desc>Description de l'enfant</desc>
-  </img>
-  <firstName>nouvPrenom</firstName>
-  <date>1971-01-01</date
-</Enfant
-----
-Réponse::
-* 200 OK : Renvoi l'enfant modifié
-* 404 NOT FOUND : L'enfant n'a pas été trouvé
-* 403 FORBIDDEN: Pas la permission
 --
 
 | /info
