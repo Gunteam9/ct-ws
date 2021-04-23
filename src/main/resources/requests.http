@@ -1,0 +1,10 @@
+POST http://localhost:8080/register
+Accept: application/xml
+Content-Type: application/xml
+
+<user>
+    <username>test</username>
+    <password>test</password>
+</user>
+
+###
