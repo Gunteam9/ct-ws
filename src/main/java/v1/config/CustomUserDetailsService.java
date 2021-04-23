@@ -12,7 +12,6 @@ import v1.facade.ParentFacade;
 import v1.model.Admin;
 import v1.model.Parent;
 
-@Component
 public class CustomUserDetailsService implements UserDetailsService {
 	private static final String[] ROLES_ADMIN = {"USER", "ADMIN"};
 	private static final String[] ROLES_USER = {"USER"};

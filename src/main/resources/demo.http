@@ -13,9 +13,14 @@ Content-Type: application/xml
 
 ###
 
+POST http://localhost:8080/login?username=admin1&password=admin1
+Accept: application/xml
+
+###
+
 PUT http://localhost:8080/child/1
 Content-Type: application/xml
-Authorization: Basic admin1 admin1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjEiLCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImV4cCI6MTYxOTE4NTE1MX0.piBqQGgWSi0T1AcqLeZNkHpQNDf37swZA9yOkTe9U1I
 
 <child>
   <img>
