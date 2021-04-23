@@ -58,28 +58,93 @@ Complétez le tableau ci-dessous avec l'ensemble des URIs de votre web-service, 
 | URI | Méthode | Description
 
 
-| /hello/{foo}
-| GET
-| Message d'accueil pour un utilisateur appelé {foo}.
+| /register
+| POST
+| Création d'un compte pour parent
 --
 Requête::
-pas d'entête, pas de contenu (tout est dans l'URI).
+On donne un parent dans le body. 
+
+Exemple:
+----
+<Parent>
+  <login>test</login>
+  <password>test</password>
+  <Enfant>
+    <firstName>enf</firstName>
+    <date>1970-01-01</date>
+  </Enfant>
+</Parent>
+----
+
 Réponse::
-* 200 OK : Chaîne "Hello {foo} !", en text/plain, où {foo} est la valeur passée dans l'URI.
+* 201 CREATED : Le compte a été créé, on renvoi le parent
 --
 
-| /hello
-| POST
-| Mesage d'accueil pour un utilisateur dont le nom est donné en JSON dans le body de la requête.
+| /child/{id}
+| PATCH
+| On met à jour l'enfant. L'id correspond à l'id de l'enfant
 --
 Requête::
+Exemple: 
 ----
-{
-  "nom": "Bar"
-}
+<Enfant>
+  <img>
+    <id>UUID</id>
+    <url>randomImage.com</url>
+    <desc>Description de l'enfant</desc>
+  </img>
+  <firstName>nouvPrenom</firstName>
+  <date>1971-01-01</date
+</Enfant
 ----
 Réponse::
-* 200 OK : chaîne "Hello Bar !", en text/plain.
+* 200 OK : Renvoi l'enfant modifié
+* 404 NOT FOUND : L'enfant n'a pas été trouvé
+* 403 FORBIDDEN: Pas la permission
+--
+
+| /parent/{login}/child
+| GET
+| On récupère les informations de son enfant
+--
+Requête::
+Avec header Authorization
+name correspond au login du parent
+Réponse::
+* 200 OK : Renvoi l'enfant
+--
+
+| /child/{id}
+| GET
+| On met à jour l'enfant. L'id correspond à l'id de l'enfant
+--
+Requête::
+Exemple: 
+----
+<Enfant>
+  <img>
+    <id>UUID</id>
+    <url>randomImage.com</url>
+    <desc>Description de l'enfant</desc>
+  </img>
+  <firstName>nouvPrenom</firstName>
+  <date>1971-01-01</date
+</Enfant
+----
+Réponse::
+* 200 OK : Renvoi l'enfant modifié
+* 404 NOT FOUND : L'enfant n'a pas été trouvé
+* 403 FORBIDDEN: Pas la permission
+--
+
+| /info
+| GET
+| On récupère les informations de la crêche
+--
+
+Réponse::
+* 200 OK : Renvoi les informations
 --
 |===
 
