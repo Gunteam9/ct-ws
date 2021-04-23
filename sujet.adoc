@@ -1,0 +1,118 @@
+= Examen de WebServices
+:title: Examen WebServices, session 1, 2020-2021
+:docyear: 2021
+:description:Inspiré de l'application Meeko Family / Meeko Team
+
+_Session 1 -- 2020-2021_
+
+
+
+== Consignes
+
+Vous devez cloner ce repository git au début de l'épreuve,
+et rendre le résultat de votre travail sur ce même repository avant la fin de l'épreuve
+(`git add` + `git commit` + `git push`).
+
+IMPORTANT: *Seule la branche `master` sera prise en compte pour l'évaluation finale.* Si vous créez d'autres branches de travail (vous pouvez), pensez à fusionner vers la branche _master_ avant la fin de l'épreuve.
+
+
+== Le sujet
+
+La crèche du quartier souhaite partager, avec les parents, les photos des activités réalisées par les enfants.
+Une application mobile est en cours de développement pour cela.
+Vous avez en charge la réalisation du service REST back-end de partage des photos (par URL).
+
+
+Votre API devra permettre _au minimum_ les opérations suivantes :
+
+- *Inscrire un parent* (login et password du parent, prénom et date de naissance de l'enfant).
+Plusieurs parents peuvent éventuellement s'inscrire pour un même enfant. Si l'enfant n'est pas encore connu de la crèche, il est automatiquement inscrit.
+
+- Pour un·e responsable de la crèche _authentifié·e_ (login/password), *ajouter une nouvelle photo d'un enfant* connu de la crèche (URL de la photo, description, prénom et date de naissance de l'enfant sur la photo).
+Chaque photo est identifiée par un UUID unique (`UUID.randomUUID()`).
+
+- Pour un parent _authentifié_ (login/password), *consulter les photos de son enfant* (et uniquement celles de son enfant).
+
+- Pour une personne _non authentifiée_, *consulter les noms des responsables et l'adresse de la crèche*.
+
+CAUTION: *Au démarrage, le modèle de votre service devra contenir au moins un·e responsable de la crèche.*
+
+
+=== Quelques simplifications par rapport à la _vraie_ vie
+
+Pour limiter la complexité de votre modèle, nous faisons quelques choix de simplification par rapport à ce que l'on ferait dans la _vraie_ vie :
+
+- Si un parent a plusieurs enfants, il créera un compte différent pour chaque enfant.
+
+- Si plusieurs enfants apparaissent sur une photo, on ajoutera une photo différente pour chaque enfant.
+
+
+
+== Question 1
+
+Complétez le tableau ci-dessous avec l'ensemble des URIs de votre web-service, en précisant les paramètres entrants et sortants, le contexte d'utilisation, etc.
+
+.URIs de votre service
+[cols="2m,1a,6a"]
+|===
+| URI | Méthode | Description
+
+
+| /hello/{foo}
+| GET
+| Message d'accueil pour un utilisateur appelé {foo}.
+--
+Requête::
+pas d'entête, pas de contenu (tout est dans l'URI).
+Réponse::
+* 200 OK : Chaîne "Hello {foo} !", en text/plain, où {foo} est la valeur passée dans l'URI.
+--
+
+| /hello
+| POST
+| Mesage d'accueil pour un utilisateur dont le nom est donné en JSON dans le body de la requête.
+--
+Requête::
+----
+{
+  "nom": "Bar"
+}
+----
+Réponse::
+* 200 OK : chaîne "Hello Bar !", en text/plain.
+--
+|===
+
+
+
+== Question 2
+
+Codez votre API en utilisant Spring Boot, avec une *authentification Basic*.
+
+Notez que vous devez également coder le modèle (avec façade), en plus du service REST proprement dit.
+
+
+
+== Question 3
+
+Ecrire un script client (`src/main/resources/demo.http`) pour faire la démonstration du fonctionnement de votre API.
+
+
+
+== Bonus
+
+Vous avez reçu le mail suivant de la DSI du groupe auquel appartient la crèche :
+
+> Bonjour,
+>
+> J'ai regardé le code de l'API de l'application.
+> J'aime bien SpringBoot, très bon choix !
+>
+> Par contre, les login/password qui se baladent dans les entêtes à chaque requête, c'est moyen.
+>
+> 1. Pourrais-tu ajouter une couche de JWT pour sécuriser un peu ?
+> 2. Ça serait bien de limiter la durée de validité des tokens. Parce que les tokens c'est sympa, mais s'ils n'expirent jamais, bonjour la sécu !
+>
+> Cordialement,
+>
+> Dominique, RSSI du groupe
